@@ -1,29 +1,29 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 
-const API_KEY = "8883bae4b75acf1de4051d0916bd9cc1";
-const BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
+const API_KEY = "8883bae4b75acf1de4051d0916bd9cc1"
+const BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
 
 
 export const fetchWeather = createAsyncThunk(
     "weather/fetchWeather",
     async (city: string, { rejectWithValue }) => {
         try {
-            const response = await fetch(`${BASE_URL}?q=${city}&appid=${API_KEY}&units=metric`);
+            const response = await fetch(`${BASE_URL}?q=${city}&appid=${API_KEY}&units=metric`)
             if (!response.ok) {
-                throw new Error("Місто не знайдено");
+                throw new Error("Місто не знайдено")
             }
-            const data = await response.json();
+            const data = await response.json()
             return data;
         } catch (error) {
-            return rejectWithValue((error as Error).message);
+            return rejectWithValue((error as Error).message)
         }
     }
-);
+)
 
 interface WeatherState {
-    loading: boolean;
-    weather: any | null;
-    error: string | null;
+    loading: boolean
+    weather: any | null
+    error: string | null
     favorites: string[]
 }
 

@@ -1,7 +1,7 @@
 'use client'
 
 import Link from "next/link";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { setFavorites, removeFavorite } from "@/store/slicers/weatherReducer";
 import { fetchWeather } from "@/store/slicers/weatherReducer";

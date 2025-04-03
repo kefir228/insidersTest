@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchWeather } from "@/store/slicers/weatherReducer";
 import { RootState, AppDispatch } from "@/store/store";
-import { addFavorite } from "@/store/slicers/weatherReducer";
+import { addFavorite, setFavorites } from "@/store/slicers/weatherReducer";
 import Link from 'next/link'
 
 const POPULAR_CITIES = ["Kyiv", "New York", "London", "Tokyo"];
@@ -13,7 +13,7 @@ export default function Home() {
   const [city, setCity] = useState("");
   const dispatch = useDispatch<AppDispatch>();
   const { weather, loading, error } = useSelector((state: RootState) => state.weather);
-  const [favorites, setFavorites] = useState<string[]>([]);
+
   const [popularCitiesWeather, setPopularCitiesWeather] = useState<any[]>([]);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ export default function Home() {
   };
 
   const handleLogout = () => {
-    setFavorites([]);
+    dispatch(setFavorites([]))
     setCity("");
   };
 
