@@ -74,5 +74,4 @@ const weatherSlice = createSlice({
 });
 
 export const { addFavorite, removeFavorite, setFavorites } = weatherSlice.actions;
-
 export default weatherSlice.reducer;
