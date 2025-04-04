@@ -10,15 +10,15 @@ body.dark {
     color: white;
 }
 
-body.dark button{
+body.dark button {
     background-color: gray;
     color: white;
 }
 
 body.dark p {
-    background-color: white;
+    color: white;
 }
 
-body.dark div{
+body.dark div {
     background-color: black;
 }
