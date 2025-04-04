@@ -12,7 +12,7 @@ export const fetchWeather = createAsyncThunk(
             if (!response.ok) {
                 throw new Error("Місто не знайдено")
             }
-            const data = await response.json()
+            const data = await response.json() as WeatherData
             return data;
         } catch (error) {
             return rejectWithValue((error as Error).message)
@@ -20,16 +20,27 @@ export const fetchWeather = createAsyncThunk(
     }
 )
 
+interface WeatherData {
+    name: string;
+    main: {
+        temp: number;
+    };
+    weather: {
+        description: string;
+        icon: string;
+    }[];
+}
+
 interface WeatherState {
     loading: boolean
-    weather: any | null
+    weather: Record<string, WeatherData>
     error: string | null
     favorites: string[]
 }
 
 const initialState: WeatherState = {
     loading: false,
-    weather: null,
+    weather: {},
     error: null,
     favorites: []
 };
@@ -48,6 +59,7 @@ const weatherSlice = createSlice({
         },
         removeFavorite: (state, action) => {
             state.favorites = state.favorites.filter(city => city !== action.payload);
+            delete state.weather[action.payload];
             if (typeof window !== "undefined") {
                 localStorage.setItem("favorites", JSON.stringify(state.favorites));
             }
@@ -64,7 +76,12 @@ const weatherSlice = createSlice({
             })
             .addCase(fetchWeather.fulfilled, (state, action) => {
                 state.loading = false;
-                state.weather = action.payload;
+                if (!action.payload || !action.payload.name) {
+                    state.error = "Некоректні дані від API";
+                    return;
+                }
+                const cityName = action.payload.name
+                state.weather[cityName] = action.payload; 
             })
             .addCase(fetchWeather.rejected, (state, action) => {
                 state.loading = false;

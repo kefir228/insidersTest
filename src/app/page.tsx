@@ -2,9 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchWeather } from "@/store/slicers/weatherReducer";
 import { RootState, AppDispatch } from "@/store/store";
-import { addFavorite, setFavorites } from "@/store/slicers/weatherReducer";
+import { fetchWeather, addFavorite, setFavorites } from "@/store/slicers/weatherReducer";
 import Link from 'next/link'
 
 const POPULAR_CITIES = ["Kyiv", "New York", "London", "Tokyo"];
@@ -12,9 +11,12 @@ const POPULAR_CITIES = ["Kyiv", "New York", "London", "Tokyo"];
 export default function Home() {
   const [city, setCity] = useState("");
   const dispatch = useDispatch<AppDispatch>();
-  const { weather, loading, error } = useSelector((state: RootState) => state.weather);
+  const weather = useSelector((state: RootState) => state.weather.weather);
+  const loading = useSelector((state: RootState) => state.weather.loading);
+  const error = useSelector((state: RootState) => state.weather.error);
+  const favorites = useSelector((state: RootState) => state.weather.favorites);
 
-  const [popularCitiesWeather, setPopularCitiesWeather] = useState<any[]>([]);
+  const [popularCitiesWeather, setPopularCitiesWeather] = useState<Record<string, any>>({});
 
   useEffect(() => {
     const fetchPopularCities = async () => {
@@ -30,9 +32,9 @@ export default function Home() {
     }
   };
 
-  const handleAddFavorite = () => {
-    if (weather && weather.name) {
-      dispatch(addFavorite(weather.name))
+  const handleAddFavorite = (cityName: string) => {
+    if (cityName && !favorites.includes(cityName)) {
+      dispatch(addFavorite(cityName));
     }
   };
 
@@ -60,28 +62,31 @@ export default function Home() {
 
       {loading && <p>Завантаження...</p>}
       {error && <p className="text-red-500">{error}</p>}
-      {weather && (
+
+      {weather && Object.keys(weather).length > 0 && (
         <div className="p-4 border rounded bg-gray-100">
-          <h2 className="text-lg font-bold">{weather.name}</h2>
-          <p>Температура: {weather.main.temp}°C</p>
-          <p>Опис: {weather.weather[0].description}</p>
-          <button onClick={handleAddFavorite} className="mt-2 p-2 bg-gray-500 text-white rounded cursor-pointer">
-            <Link href="/favorites">
-              Додати до обраного
-            </Link>
+          <h2 className="text-lg font-bold">{weather[city]?.name}</h2>
+          <p>Температура: {weather[city]?.main?.temp ?? 'Немає даних'}°C</p>
+          <p>Опис: {weather[city]?.weather?.[0]?.description || 'Немає даних'}</p>
+          <button
+            onClick={() => handleAddFavorite(weather[city]?.name)}
+            className="mt-2 p-2 bg-gray-500 text-white rounded cursor-pointer"
+          >
+            <Link href="/favorites">Додати до обраного</Link>
           </button>
         </div>
       )}
 
       <h2 className="text-lg font-bold mt-6">Популярні міста</h2>
       <div className="grid grid-cols-2 gap-4 mt-2">
-        {popularCitiesWeather.map((cityWeather) => (
+        {Object.values(popularCitiesWeather).map((cityWeather) => (
           <div key={cityWeather.name} className="p-3 border rounded bg-gray-200">
             <h3 className="font-bold">{cityWeather.name}</h3>
             <p>{cityWeather.main.temp}°C</p>
           </div>
         ))}
       </div>
+
       <ul>
         <button onClick={handleLogout} className="mt-6 w-full p-2 bg-red-500 text-white rounded cursor-pointer">
           Log out

@@ -44,7 +44,7 @@ export default function FavoriteCity() {
                     <p>Немає обраних міст</p>
                 ) : (
                     favorites.map(city => {
-                        const cityWeather = weatherData?.name === city ? weatherData : null;
+                        const cityWeather = weatherData[city];
                         
                         return (
                             <li key={city} className="flex justify-between items-center p-3 border-b">
