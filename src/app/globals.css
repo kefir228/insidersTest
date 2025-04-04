@@ -1,1 +1,24 @@
 @import "tailwindcss";
+
+body.light {
+    background-color: white;
+    color: black;
+}
+
+body.dark {
+    background-color: black;
+    color: white;
+}
+
+body.dark button{
+    background-color: gray;
+    color: white;
+}
+
+body.dark p {
+    background-color: white;
+}
+
+body.dark div{
+    background-color: black;
+}

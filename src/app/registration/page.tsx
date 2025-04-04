@@ -79,7 +79,7 @@ export default function Registration() {
 
                 <button
                     type="submit"
-                    className="w-full mt-4 p-2 bg-blue-500 text-white rounded cursor-pointer"
+                    className="w-full mt-4 p-2 bg-gray-500 text-white rounded cursor-pointer"
                 >
                     Зареєструватися
                 </button>

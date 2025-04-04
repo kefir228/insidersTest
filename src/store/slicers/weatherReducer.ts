@@ -1,3 +1,5 @@
+'use client'
+
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 
 const API_KEY = "8883bae4b75acf1de4051d0916bd9cc1"

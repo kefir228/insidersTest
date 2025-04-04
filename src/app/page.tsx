@@ -55,7 +55,7 @@ export default function Home() {
           placeholder="Введіть назву міста"
           className="w-full p-2 border border-gray-300 rounded"
         />
-        <button onClick={handleSearch} className="w-full mt-2 p-2 bg-gray-500 text-white rounded cursor-pointer">
+        <button onClick={handleSearch} className="w-full mt-2 p-2 bg-gray-300 text-black rounded cursor-pointer">
           Пошук
         </button>
       </div>
@@ -70,7 +70,7 @@ export default function Home() {
           <p>Опис: {weather[city]?.weather?.[0]?.description || 'Немає даних'}</p>
           <button
             onClick={() => handleAddFavorite(weather[city]?.name)}
-            className="mt-2 p-2 bg-gray-500 text-white rounded cursor-pointer"
+            className="mt-2 p-2 bg-gray-300 text-black rounded cursor-pointer"
           >
             <Link href="/favorites">Додати до обраного</Link>
           </button>
@@ -91,12 +91,12 @@ export default function Home() {
         <button onClick={handleLogout} className="mt-6 w-full p-2 bg-red-500 text-white rounded cursor-pointer">
           Log out
         </button>
-        <button onClick={handleLogout} className="mt-6 w-full p-2 bg-gray-500 text-white rounded cursor-pointer">
+        <button onClick={handleLogout} className="mt-6 w-full p-2 bg-gray-300 text-black rounded cursor-pointer">
           <Link href='/registration'>
             Зареєструватись
           </Link>
         </button>
-        <button onClick={handleLogout} className="mt-6 w-full p-2 bg-gray-500 text-white rounded cursor-pointer">
+        <button onClick={handleLogout} className="mt-6 w-full p-2 bg-gray-300 text-black rounded cursor-pointer">
           <Link href="/login">
             Увійти
           </Link>
